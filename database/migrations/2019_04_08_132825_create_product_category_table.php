@@ -14,8 +14,8 @@ class CreateProductCategoryTable extends Migration
     public function up()
     {
         Schema::create('product_category', function (Blueprint $table) {
-            $table->bigInteger('product_id');
-            $table->bigInteger('category_id');
+            $table->bigInteger('product_id')->nullable()->unsigned();
+            $table->bigInteger('category_id')->nullable()->unsigned();
             $table->timestamps();
         });
     }

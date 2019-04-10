@@ -19,8 +19,8 @@ class CreateProductTable extends Migration
             $table->integer('price');
             $table->boolean('highlight');
             $table->integer('quantity')->unsigned();
-            $table->string('avatar');
-            $table->string('description');
+            $table->string('avatar')->nullable();
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }
