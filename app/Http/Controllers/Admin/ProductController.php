@@ -8,12 +8,12 @@ use App\Http\Controllers\Controller;
 class ProductController extends Controller
 {
     public function create(){
-
+return view('admin.product.create');
     }
     public function index(){
-
+ return view('admin.product.index');
     }
     public function edit(){
-        
+return view('admin.product.edit');
     }
 }

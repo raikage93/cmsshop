@@ -30,34 +30,44 @@ Route::group(['namespace'=>'Client'], function() {
  */
 Route::group(['prefix' => 'admin','namespace'=>'Admin'], function () {
 
+    
+    Route::group(['middleware'=>'guest'], function() {
+        Route::get('login','LoginController@showLoginForm');
+    });
+    
+    Route::group(['middleware'=>'auth'], function() {
+        Route::group(['prefix' => 'products'], function () {
+            Route::get('/create','ProductController@create');
+            Route::get('/','ProductController@index');
+            Route::get('/{product}/edit','ProductController@edit');
+         });
+    
+        // Admin User
+        Route::group(['prefix' => 'users'], function() {
+            Route::get('/create','UserController@create');
+            Route::get('/{user}/edit','UserController@edit');
+            Route::get('/','UserController@index');
+        });
+    
+        // Admin Categories
+        Route::group(['prefix' => 'categories'], function() {
+            Route::get('/','CategoryController@index');
+            Route::get('/{category}/edit','CategoryController@edit');
+        });
+      
+        // Admin Order
+        Route::group(['prefix' => 'orders'], function () {
+            Route::get('/','OrderController@index');
+            Route::get('/{order}/edit','OrderController@edit');
+            Route::get('/processed','OrderController@processed');
+        });
+    });
+    
+    
     Route::get('/','DashboardController@index');
-    Route::get('login','LoginController@showLoginForm');
+   
 
     // Admin Product
-     Route::group(['prefix' => 'products'], function () {
-        Route::get('/create','ProductController@create');
-        Route::get('/','ProductController@index');
-        Route::get('/{prorudct}/edit','ProductController@edit');
-     });
-
-    // Admin User
-    Route::group(['prefix' => 'users'], function() {
-        Route::get('/create','UserController@create');
-        Route::get('/{user}/edit','UserController@edit');
-        Route::get('/','UserController@index');
-    });
-
-    // Admin Categories
-    Route::group(['prefix' => 'categories'], function() {
-        Route::get('/','CategoryController@index');
-        Route::get('/{category}/edit','CategoryController@edit');
-    });
-  
-    // Admin Order
-    Route::group(['prefix' => 'orders'], function () {
-        Route::get('/','OrderController@index');
-        Route::get('/{order}/edit','OrderController@edit');
-        Route::get('/processed','OrderController@processed');
-    });
+    
 
 });
