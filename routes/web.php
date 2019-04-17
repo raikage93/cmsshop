@@ -18,7 +18,7 @@ Route::group(['namespace'=>'Client'], function() {
     Route::get('/gioi-thieu','HomeController@about');
     Route::get('gio-hang','CartController@index');
     Route::get('/gio-hang/thanh-toan','CartController@checkout');
-    Route::get('/gio-hang/thanh-cong','CartController@complete');
+    Route::get('/gio-hang/thanh-cong','CartController@complete');  
     Route::get('/lien-he','HomeController@contact');
     Route::get('/sanpham/{id}','ProductController@detail');
     Route::get('/','HomeController@index');
@@ -33,9 +33,14 @@ Route::group(['prefix' => 'admin','namespace'=>'Admin'], function () {
     
     Route::group(['middleware'=>'guest'], function() {
         Route::get('login','LoginController@showLoginForm');
+        Route::post('login','LoginController@login');
+       
+
     });
     
     Route::group(['middleware'=>'auth'], function() {
+        Route::post('logout','LoginController@logout')->name('admin.logout');
+        Route::get('/','DashboardController@index');
         Route::group(['prefix' => 'products'], function () {
             Route::get('/create','ProductController@create');
             Route::get('/','ProductController@index');
@@ -64,7 +69,7 @@ Route::group(['prefix' => 'admin','namespace'=>'Admin'], function () {
     });
     
     
-    Route::get('/','DashboardController@index');
+  
    
 
     // Admin Product
