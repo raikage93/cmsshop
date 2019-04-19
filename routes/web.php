@@ -41,10 +41,15 @@ Route::group(['prefix' => 'admin','namespace'=>'Admin'], function () {
     Route::group(['middleware'=>'auth'], function() {
         Route::post('logout','LoginController@logout')->name('admin.logout');
         Route::get('/','DashboardController@index')->name('admin.dashboard');
+        
+        // Admin Product
         Route::group(['prefix' => 'products'], function () {
             Route::get('/create','ProductController@create')->name('admin.product.create');
+            Route::post('/','ProductController@store')->name('admin.product.store');
             Route::get('/','ProductController@index')->name('admin.product.index');
             Route::get('/{product}/edit','ProductController@edit')->name('admin.product.edit');
+            Route::put('/{product}','ProductController@update')->name('admin.product.update');
+            Route::delete('/{product}','ProductController@destroy')->name('admin.product.destroy');
          });
     
         // Admin User
@@ -72,7 +77,7 @@ Route::group(['prefix' => 'admin','namespace'=>'Admin'], function () {
   
    
 
-    // Admin Product
+    
     
 
 });

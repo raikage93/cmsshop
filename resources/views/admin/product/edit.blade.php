@@ -9,11 +9,25 @@
     <!--/.row-->
     <div class="row">
         <div class="col-xs-6 col-md-12 col-lg-12">
+         
             <div class="panel panel-primary">
-                <div class="panel-heading">Sửa sản phẩm</div>
+                @if (session()->has('add_product')||session()->has('edit_product'))
+                <div class="alert bg-success" role="alert">
+                    <svg class="glyph stroked checkmark">
+                        <use xlink:href="#stroked-checkmark"></use>
+                    </svg>@if (session()->has('add_product'))
+                        'Đã thêm thành công'
+                        @else
+                        'Đã sửa thành công'
+                    @endif<a href="#" class="pull-right"><span class="glyphicon glyphicon-remove"></span></a>
+                </div>
+                @endif
+               <form action="{{route('admin.product.update',$product->id)}}" enctype="multipart/form-data" method="POST">
+                @csrf
+                @method('PUT')
                 <div class="panel-body">
                     <div class="row" style="margin-bottom:40px">
-                         
+                       
                                 <div class="col-md-8">
                                     <div class="form-group">
                                         <label>Danh mục</label>
@@ -26,51 +40,44 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Mã sản phẩm</label>
-                                        <input  type="text" name="code" class="form-control" value="SP01">
+                                        <input  type="text" name="code" class="form-control" value="{{$product->id}}" readonly>
                                     </div>
                                     <div class="form-group">
                                         <label>Tên sản phẩm</label>
-                                        <input  type="text" name="name" class="form-control" value="Sản phẩm 1">
+                                        <input  type="text" name="name" class="form-control" value="{{$product->name}}">
                                     </div>
                                     <div class="form-group">
                                         <label>Giá sản phẩm (Giá chung)</label>
-                                        <input  type="number" name="price" class="form-control" value="150000">
+                                        <input  type="number" name="price" class="form-control" value="{{$product->price}}">
                                     </div>
                                     <div class="form-group">
                                         <label>Sản phẩm có nổi bật</label>
-                                        <select  name="featured" class="form-control">
-                                            <option value="0">Không</option>
-                                            <option selected value="1">Có</option>
+                                        <select  name="highlight" class="form-control">
+                                            <option {{$product->highlight==0?'selected':''}} value="0">Không</option>
+                                            <option {{$product->hightlight==1?'selected':''}} value="1">Có</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label>Trạng thái</label>
-                                        <select  name="state" class="form-control">
-                                            <option value="1">Còn hàng</option>
-                                            <option selected value="0">Hết hàng</option>
-                                        </select>
+                                        <label>Trong kho</label>
+                                        <input type="number" min="0" name="quantity" value="{{$product->quantity}}" class="form-control">
+                                        
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Ảnh sản phẩm</label>
-                                        <input id="img" type="file" name="img" class="form-control hidden"
+                                        <input id="img" type="file" name="avatar" class="form-control hidden"
                                             onchange="changeImg(this)">
                                         <img id="avatar" class="thumbnail" width="100%" height="350px" src="img/import-img.png">
                                     </div>
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Thông tin</label>
-                                        <textarea  name="info" style="width: 100%;height: 100px;"></textarea>
-                                    </div>
-                                </div>
+                                
                     </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Miêu tả</label>
-                                    <textarea id="editor"  name="describe" style="width: 100%;height: 100px;"></textarea>
+                                    <textarea id="editor"  name="description" style="width: 100%;height: 100px;">{{$product->description}}</textarea>
                                 </div>
                                 <button class="btn btn-success" name="add-product" type="submit">Sửa sản phẩm</button>
                                 <button class="btn btn-danger" type="reset">Huỷ bỏ</button>
@@ -78,6 +85,7 @@
                         </div>
                     <div class="clearfix"></div>
                 </div>
+               </form>
             </div>
 
         </div>
