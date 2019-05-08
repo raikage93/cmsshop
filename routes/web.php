@@ -16,11 +16,16 @@
 
 Route::group(['namespace'=>'Client'], function() {
     Route::get('/gioi-thieu','HomeController@about');
-    Route::get('gio-hang','CartController@index');
+    Route::get('/gio-hang','CartController@index')->name('cart.index');
     Route::get('/gio-hang/thanh-toan','CartController@checkout');
     Route::get('/gio-hang/thanh-cong','CartController@complete');  
+    Route::post('/gio-hang/update','CartController@update')->name('cart.update');
+    Route::post('/gio-hang/delete','CartController@destroy')->name('cart.delete');
+    Route::get('/gio-hang/checkout','CartController@checkout')->name('cart.checkout');
+    Route::post('/gio-hang','CartController@store')->name('cart.store');
     Route::get('/lien-he','HomeController@contact');
-    Route::get('/sanpham/{id}','ProductController@detail');
+    Route::get('/sanpham/{product}','ProductController@detail')->name('product.detail');
+    Route::post('/sanpham','CartController@add')->name('cart.add');
     Route::get('/','HomeController@index');
     Route::get('/san-pham','ProductController@shop');
 });
@@ -62,7 +67,12 @@ Route::group(['prefix' => 'admin','namespace'=>'Admin'], function () {
         // Admin Categories
         Route::group(['prefix' => 'categories'], function() {
             Route::get('/','CategoryController@index')->name('admin.category.index');
+            Route::get('/create','CategoryController@create')->name('admin.category.create');
+            Route::post('/store','CategoryController@store')->name('admin.category.store');
             Route::get('/{category}/edit','CategoryController@edit')->name('admin.category.edit');
+            Route::put('/{category}','CategoryController@update')->name('admin.category.update');
+            Route::delete('/{category}','CategoryController@destroy')->name('admin.category.destroy');
+
         });
       
         // Admin Order

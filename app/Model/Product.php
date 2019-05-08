@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    protected $fillable=[
-        'name','price','highlight','quantity','avatar','description'
-    ];
+    protected $guarded=['id'];
+    public function getAvatarAttribute($value){
+        return 'storage/images'.'/'.$value;
+    }
 }

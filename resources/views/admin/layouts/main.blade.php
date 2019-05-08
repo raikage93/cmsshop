@@ -62,7 +62,7 @@
 	<script src="backend/js/easypiechart-data.js"></script>
 	<script src="backend/js/bootstrap-datepicker.js"></script>
 	<script src="backend/js/chart-data.js"></script>
-
+@yield('script')
 </body>
 
 </html>

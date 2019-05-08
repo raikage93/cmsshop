@@ -46,6 +46,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @php
+                                        $sum=0;
+                                    @endphp
+                                    @foreach ($order->order_details as $item)
+                                    @php
+                                        $price_detail=$item->product->price*$item->quantity;
+                                        $sum+=$price_detail;
+                                    @endphp
                                     <tr>
                                         <td>1</td>
                                         <td>
@@ -54,34 +62,18 @@
                                                     <img width="100px" src="img/ao-khoac.jpg" class="thumbnail">
                                                 </div>
                                                 <div class="col-md-8">
-                                                    <p><b>Mã sản phẩm</b>: SP01</p>
-                                                    <p><b>Tên Sản phẩm</b>: Áo Khoác Bomber Nỉ Xanh Lá Cây AK179</p>
-                                                    <p><b>Số lương</b> : 2</p>
+                                                <p><b>Mã sản phẩm</b>: {{$item->product_id}}</p>
+                                                <p><b>Tên Sản phẩm</b>: {{$item->product->name}}</p>
+                                                <p><b>Số lương</b> : {{$item->quantity}}</p>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td>500.000 VNĐ</td>
-                                        <td>1.000.000 VNĐ</td>
+                                        <td>{{number_format($item->product->price)}} VNĐ</td>
+                                    <td>{{number_format($item->product->price*$item->quantity)}}VND</td>
 
                                     </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <img width="100px" src="img/ao-khoac.jpg" class="thumbnail">
-                                                </div>
-                                                <div class="col-md-8">
-                                                    <p><b>Mã sản phẩm</b>: SP02</p>
-                                                    <p><b>Tên Sản phẩm</b>: Áo Khoác Bomber Nỉ Xanh Lá Cây AK179</p>
-                                                    <p><b>Số lương</b> : 1</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>500.000 VNĐ</td>
-                                        <td>500.000 VNĐ</td>
-
-                                    </tr>
+                                    @endforeach
+                                    
                                 
                                 </tbody>
 
@@ -93,7 +85,7 @@
                                             <h4 align='right'>Tổng Tiền :</h4>
                                         </th>
                                         <th>
-                                            <h4 align='right' style="color: brown;">1.500.000 VNĐ</h4>
+                                            <h4 align='right' style="color: brown;">{{number_format($sum)}} VNĐ</h4>
                                         </th>
 
                                     </tr>

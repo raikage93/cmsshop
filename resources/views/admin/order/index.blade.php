@@ -32,19 +32,24 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Nguyễn Thế Phúc</td>
-                                        <td>0356653300</td>
-                                        <td>Thường tín</td>
+                                 @if ($orders)
+                                     @foreach ($orders as $order)
+                                     <tr>
+                                     <td>{{$order->id}}</td>
+                                     <td>{{$order->client_name}}</td>
+                                     <td>{{$order->phone}}</td>
+                                     <td>{{$order->address}}</td>
                                         <td>
-                                            <a href="detailorder.html" class="btn btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i>Xử lý</a>
+                                        <a href="{{route('admin.order.edit',$order->id)}}" class="btn btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i>Xử lý</a>
 
                                         </td>
                                     </tr>
 
+                                     @endforeach
+                                 @endif
                                 </tbody>
                             </table>
+                            {{$orders->links()}}
                         </div>
                     </div>
                     <div class="clearfix"></div>

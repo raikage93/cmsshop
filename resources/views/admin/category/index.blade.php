@@ -22,41 +22,37 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-5">
-
-                            <div class="form-group">
-                                <label for="">Danh mục cha:</label>
-                                <select class="form-control" name="" id="">
-                                    <option>----ROOT----</option>
-                                    <option>Nam</option>
-                                    <option>---|Áo khoác nam</option>
-                                    <option>---|---|Áo khoác nam</option>
-                                    <option>Nữ</option>
-                                    <option>---|Áo khoác nữ</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="">Tên Danh mục</label>
-                                <input type="text" class="form-control" name="name" id="" placeholder="Tên danh mục mới">
-
-                                <div class="alert bg-danger" role="alert">
-                                    <svg class="glyph stroked cancel">
-                                        <use xlink:href="#stroked-cancel"></use>
-                                    </svg>Tên danh mục đã tồn tại!<a href="#" class="pull-right"><span class="glyphicon glyphicon-remove"></span></a>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Thêm danh mục</button>
-                        </div>
-                        <div class="col-md-7">
-                            <div class="alert bg-success" role="alert">
-                                <svg class="glyph stroked checkmark">
-                                    <use xlink:href="#stroked-checkmark"></use>
-                                </svg> Đã thêm danh mục thành công! <a href="#" class="pull-right"><span class="glyphicon glyphicon-remove"></span></a>
-                            </div>
+                       
+                        <div class="col-md-12">
+                            <a href="{{route('admin.category.create')}}" class='btn btn-primary'>Thêm Danh Mục</a>
                             <h3 style="margin: 0;"><strong>Phân cấp Menu</strong></h3>
                             <div class="vertical-menu">
                                 <div class="item-menu active">Danh mục </div>
-                                <div class="item-menu"><span>Nam</span>
+                                {{--  start category  --}}
+
+                                
+                                @if ($categories->count()>0)
+                             @foreach ($categories as $category)
+                            <div class="item-menu"><span>{{$category->name}}</span>
+                                <div class="category-fix">
+                                <a class="btn-category btn-primary" href="{{route('admin.category.edit',$category->id)}}"><i class="fa fa-edit"></i></a>
+                                    <a id="{{$category->id}}" class="btn-category btn-danger delete-form" href="#"><i class="fas fa-times"></i></i></a>
+                                    <form action="{{route('admin.category.destroy',$category->id)}}" id="form-delete-{{$category->id}}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+              
+              
+                                      </form>
+                                </div>
+                            </div>
+                          @php
+                              if(!is_null($category->sub)){
+                                  printSubCategories($category->sub,1);
+                              }
+                          @endphp
+                             @endforeach
+                                @endif
+                                {{--  <div class="item-menu"><span>Nam</span>
                                     <div class="category-fix">
                                         <a class="btn-category btn-primary" href="editcategory.html"><i class="fa fa-edit"></i></a>
                                         <a class="btn-category btn-danger" href="#"><i class="fas fa-times"></i></i></a>
@@ -90,7 +86,9 @@
                                         <a class="btn-category btn-danger" href="#"><i class="fas fa-times"></i></i></a>
 
                                     </div>
-                                </div>
+                                </div>  --}}
+                                {{--  end category  --}}
+                               
 
                             </div>
                         </div>
@@ -105,3 +103,47 @@
     <!--/.row-->
 </div>
 @endsection
+@section('script')
+   <script>
+    $(document).ready(function(){
+        $('.delete-form').click(function(e){
+          var x= $(this).attr("id");
+          var str="form-delete-"+x;
+          e.preventDefault();
+
+          if(confirm('Are you sure')){document.getElementById(str).submit();}
+          
+        });
+    })
+   </script>
+@endsection
+@php
+  function  printSubCategories($categories,$nth){
+        foreach ($categories as $category) {
+            echo '
+            <div class="item-menu"><span>'.printMark($nth).$category->name.'</span>
+                <div class="category-fix">
+                    <a class="btn-category btn-primary" href="http://localhost/cmsshop/public/admin/categories/'.$category->id.'/edit"><i class="fa fa-edit"></i></a>
+                    <a id="'.$category->id.'" class="btn-category btn-danger delete-form" href="#"><i class="fas fa-times"></i></i></a>
+                    <form action="http://localhost/cmsshop/public/admin/categories/'.$category->id.'" id="form-delete-'.$category->id.'" method="POST">
+                        <input type="hidden" name="_token" value="'.csrf_token().'">
+                        <input type="hidden" name="_method" value="DELETE">
+              
+              
+                                      </form>
+                </div>
+            </div>
+            ';
+            if(!is_null($category->sub)){
+                printSubCategories($category->sub,$nth+1);
+            }
+        }
+    }
+ function printMark($times){
+     $mark='';
+     for($i=0;$i<$times;$i++){
+         $mark.='---|';}
+         return $mark;
+     }
+ 
+@endphp
