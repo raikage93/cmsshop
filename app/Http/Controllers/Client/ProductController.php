@@ -12,7 +12,7 @@ class ProductController extends Controller
   return view('client.product',compact('product'));
  }
  public function shop(){
-     $products=Product::paginate(6);
-     return view('client.list-product',compact('products'));
+     $products=Product::all();
+      return view('client.list-product',compact('products'));
  }
 }

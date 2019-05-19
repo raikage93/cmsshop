@@ -12,10 +12,10 @@ class HomeController extends Controller
 
     }
     public function about(){
-        return 'gioi thieu';
-
+        return view('client.about');
     }
     public function contact(){
-        return 'lien he';
+        return view('client.contact');
     }
+   
 }

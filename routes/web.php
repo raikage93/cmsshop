@@ -15,7 +15,7 @@
  */
 
 Route::group(['namespace'=>'Client'], function() {
-    Route::get('/gioi-thieu','HomeController@about');
+   
     Route::get('/gio-hang','CartController@index')->name('cart.index');
     Route::get('/gio-hang/thanh-toan','CartController@checkout');
     Route::get('/gio-hang/thanh-cong','CartController@complete');  
@@ -23,11 +23,15 @@ Route::group(['namespace'=>'Client'], function() {
     Route::post('/gio-hang/delete','CartController@destroy')->name('cart.delete');
     Route::get('/gio-hang/checkout','CartController@checkout')->name('cart.checkout');
     Route::post('/gio-hang','CartController@store')->name('cart.store');
-    Route::get('/lien-he','HomeController@contact');
+   Route::get('/san-pham','ProductController@shop');
     Route::get('/sanpham/{product}','ProductController@detail')->name('product.detail');
     Route::post('/sanpham','CartController@add')->name('cart.add');
     Route::get('/','HomeController@index');
-    Route::get('/san-pham','ProductController@shop');
+    Route::get('/about','HomeController@about');
+    Route::get('/contact','HomeController@contact');
+   
+    
+    
 });
 
 /**
